@@ -1,0 +1,14 @@
+.profile-detail-group {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+
+  .profile-detail-label {
+    font-size: small;
+    font-weight: bold;
+  }
+
+  .profile-detail {
+    font-size: large;
+  }
+}

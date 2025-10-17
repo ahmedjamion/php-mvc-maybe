@@ -1,0 +1,19 @@
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  background-color: rebeccapurple;
+  color: white;
+  border-radius: 9999px;
+}
+
+.secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  background-color: lavender;
+  color: black;
+  border-radius: 9999px;
+}

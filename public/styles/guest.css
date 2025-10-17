@@ -1,0 +1,10 @@
+.guest-home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.yes-no {
+  display: flex;
+  gap: 2rem;
+}

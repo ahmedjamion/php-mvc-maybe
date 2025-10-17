@@ -1,0 +1,103 @@
+# ================================
+# .htaccess for Custom PHP MVC App
+# ================================
+
+# 1. Enable Apache's rewrite engine
+# This turns on mod_rewrite, which lets Apache rewrite URLs on the fly.
+RewriteEngine On
+
+# Define the base directory for rewriting.
+# If your app is in a subfolder (e.g. /myapp), set it as:
+# RewriteBase /myapp/
+RewriteBase /
+
+# --------------------------------
+# 2. Enforce HTTPS (optional but recommended)
+# --------------------------------
+# This ensures all traffic uses HTTPS for security.
+# If your site already forces HTTPS via the host or reverse proxy, you can remove this block.
+
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Explanation:
+# - %{HTTPS} off → this condition matches if the connection is NOT secure.
+# - RewriteRule redirects to the same host and URI, but with https://
+# - [L,R=301] → "L" means stop processing further rules, "R=301" means a permanent redirect.
+
+# --------------------------------
+# 3. Static file exceptions
+# --------------------------------
+# These rules tell Apache to serve static files directly from disk.
+# Without this, even CSS, JS, and images would be routed to index.php.
+
+RewriteCond %{REQUEST_URI} !\.(?:css|js|png|jpg|jpeg|gif|svg|ico|webp|json|woff2?|ttf|mp4|pdf)$
+RewriteCond %{REQUEST_URI} !^/sw\.js$
+RewriteCond %{REQUEST_URI} !^/manifest\.json$
+# Explanation:
+# - The first condition skips files ending with typical static extensions.
+# - The second and third skip service worker and manifest files (used by PWAs).
+
+# --------------------------------
+# 4. Route all other requests to index.php
+# --------------------------------
+# This is the core of the front controller pattern.
+# All dynamic routes (like /user/profile or /posts/12) are handled by index.php.
+
+RewriteRule ^ index.php [L,QSA]
+# Explanation:
+# - ^ means match everything.
+# - [L] stops further rules from running.
+# - [QSA] means “Query String Append”, preserving ?foo=bar values in URLs.
+
+# --------------------------------
+# 5. MIME type for manifest.json
+# --------------------------------
+# PWAs require a specific MIME type for their web manifest.
+# This ensures browsers read manifest.json correctly.
+
+<Files "manifest.json">
+  AddType application/manifest+json .json
+</Files>
+
+# --------------------------------
+# 6. Browser caching for static assets
+# --------------------------------
+# Helps performance by telling browsers to keep static files for a while.
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # CSS and JS → cached for 1 month
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  # Images and fonts → cached for 1 year
+  ExpiresByType image/* "access plus 1 year"
+  ExpiresByType font/* "access plus 1 year"
+</IfModule>
+
+# --------------------------------
+# 7. Security headers
+# --------------------------------
+# Protects your site from common attacks and privacy leaks.
+
+<IfModule mod_headers.c>
+  # Prevent browsers from guessing MIME types
+  Header always set X-Content-Type-Options "nosniff"
+  
+  # Only allow your pages to be embedded in iframes from your own site
+  Header always set X-Frame-Options "SAMEORIGIN"
+  
+  # Hide the full referrer on cross-origin requests
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # Enable basic XSS filtering in older browsers
+  Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# --------------------------------
+# 8. Custom 404 handling
+# --------------------------------
+# If no file or route matches, send the request to index.php.
+# Your PHP router can then handle "page not found" gracefully.
+
+ErrorDocument 404 /index.php
+

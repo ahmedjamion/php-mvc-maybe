@@ -1,0 +1,44 @@
+@import url(reset.css);
+@import url(flash.css);
+@import url(animations.css);
+@import url(sidebar.css);
+@import url(form.css);
+@import url(profile.css);
+@import url(guest.css);
+@import url(button.css);
+
+body {
+  height: 100vh;
+  display: flex;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 1rem;
+  background-color: white;
+}
+
+.guest-home-page,
+.login-page,
+.register-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}

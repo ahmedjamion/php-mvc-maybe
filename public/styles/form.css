@@ -1,0 +1,36 @@
+.login-form,
+.register-form {
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input,
+  button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    border: 1px solid rebeccapurple;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  input[type="submit"] {
+    border: none;
+    background-color: rebeccapurple;
+    color: whitesmoke;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,17 @@
+.flash {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+  animation: slideUpDown 3s ease-in-out forwards;
+  z-index: 20;
+}
+.error {
+  background-color: lightcoral;
+}
+
+.success {
+  background-color: lightseagreen;
+}
